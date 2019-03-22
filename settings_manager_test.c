@@ -48,7 +48,7 @@ struct Setting settings_test_metadata[] =
         1,
         SETTING_BOOLEAN
     },
-    NULL
+    {NULL}
 };
 
 struct settings_test test_settings =
