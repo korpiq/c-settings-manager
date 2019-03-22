@@ -1,5 +1,5 @@
 #include <string.h>
-#include "SettingsManager.h"
+#include "settings_manager.h"
 
 void serializeSettings(const struct Setting * settings_definition, const void * settings_struct, const settingConsumerFunction * consumer)
 {

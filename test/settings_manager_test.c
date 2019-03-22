@@ -1,5 +1,5 @@
 #include <string.h>
-#include "SettingsManager.h"
+#include "settings_manager.h"
 #include "assert.h"
 
 struct settings_test
@@ -15,35 +15,35 @@ struct Setting settings_test_metadata[] =
 {
     {
         "String value",
-        offsetof(settings_test, string_value),
+        offsetof(struct settings_test, string_value),
         5,
         5,
         SETTING_STRING
     },
     {
         "Long value",
-        offsetof(settings_test, long_value),
+        offsetof(struct settings_test, long_value),
         -2,
         2,
         SETTING_ULONG
     },
     {
         "Ulong value",
-        offsetof(settings_test, ulong_value),
+        offsetof(struct settings_test, ulong_value),
         0,
         8,
         SETTING_ULONG
     },
     {
         "Double value",
-        offsetof(settings_test, double_value),
+        offsetof(struct settings_test, double_value),
         -1,
         1,
         SETTING_DOUBLE
     },
     {
         "Boolean value",
-        offsetof(settings_test, boolean_value),
+        offsetof(struct settings_test, boolean_value),
         0,
         1,
         SETTING_BOOLEAN
