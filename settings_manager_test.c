@@ -65,7 +65,7 @@ void testSettingFromStringByNameFailsOnTooLongString()
     assert(0 != settingFromStringByName(settings_test_metadata, &test_settings, "String value", "too long string"));
 }
 
-void testSettingFromStringByNameOk()
+void testSettingFromStringByNameStringOk()
 {
     const char * value = "strin";
 
@@ -81,10 +81,75 @@ void testSettingFromStringByNameOk()
     assert(!strcmp(value, test_settings.string_value));
 }
 
+void testSettingFromStringByNameLongOk()
+{
+    const char * value = "2";
+
+    const char * result = settingFromStringByName(settings_test_metadata, &test_settings, "Long value", value);
+
+    if (result != NULL)
+    {
+        printf("Unexpected error: %s\n", result);
+    }
+
+    assert(result == NULL);
+    assert(test_settings.long_value == 2);
+}
+
+void testSettingFromStringByNameULongOk()
+{
+    const char * value = "6";
+
+    const char * result = settingFromStringByName(settings_test_metadata, &test_settings, "Ulong value", value);
+
+    if (result != NULL)
+    {
+        printf("Unexpected error: %s\n", result);
+    }
+
+    assert(result == NULL);
+    assert(test_settings.ulong_value == 6);
+}
+
+void testSettingFromStringByNameDoubleOk()
+{
+    const char * value = "-0.5";
+
+    const char * result = settingFromStringByName(settings_test_metadata, &test_settings, "Double value", value);
+
+    if (result != NULL)
+    {
+        printf("Unexpected error: %s\n", result);
+    }
+
+    assert(result == NULL);
+    assert(test_settings.double_value == -0.5);
+}
+
+void testSettingFromStringByNameBooleanOk()
+{
+    const char * value = "true";
+
+    const char * result = settingFromStringByName(settings_test_metadata, &test_settings, "Boolean value", value);
+
+    if (result != NULL)
+    {
+        printf("Unexpected error: %s\n", result);
+    }
+
+    assert(result == NULL);
+    assert(test_settings.boolean_value == true);
+}
+
 int main()
 {
     testSettingFromStringByNameFailsOnBadName();
     testSettingFromStringByNameFailsOnTooLongString();
-    testSettingFromStringByNameOk();
+    testSettingFromStringByNameStringOk();
+    testSettingFromStringByNameLongOk();
+    testSettingFromStringByNameULongOk();
+    testSettingFromStringByNameDoubleOk();
+    testSettingFromStringByNameBooleanOk();
+
     return 0;
 }

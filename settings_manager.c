@@ -44,9 +44,8 @@ const char * setStringSettingFromString(const struct Setting * setting_definitio
         snprintf(
             setting_error,
             SETTING_ERROR_LEN,
-            "Text value is too long (%zu > %zu) for setting \"%.60s\"",
+            "Text value is too long (%zu) for setting \"%.60s\"",
             value_len,
-            setting_definition->string_limits.max,
             setting_definition->name
         );
         return setting_error;
@@ -67,11 +66,62 @@ const char * setStringSettingFromString(const struct Setting * setting_definitio
     return NULL;
 }
 
+const char * setBooleanSettingFromString(const struct Setting * setting_definition, bool * setting, const char * value)
+{
+    if (!strcmp("true", value))
+    {
+        *setting = true;
+    }
+    else if (!strcmp("false", value))
+    {
+        *setting = false;
+    }
+    else
+    {
+        snprintf(
+            setting_error,
+            SETTING_ERROR_LEN,
+            "Value for boolean setting \"%.60s\" must be \"true\" or \"false\"",
+            setting_definition->name
+        );
+        return setting_error;
+    }
+
+    return NULL;
+}
+
+const char * setNumericSettingFromString(const struct Setting * setting_definition, const char * format, const char * type_name, void * setting, const char * value)
+{
+    if (sscanf(value, format, setting) == 1)
+    {
+        return NULL;
+    }
+
+    snprintf(
+        setting_error,
+        SETTING_ERROR_LEN,
+        "Value for setting \"%.60s\" is not a valid %s",
+        setting_definition->name,
+        type_name
+    );
+
+    return setting_error;
+}
+
 const char * setSettingFromString(const struct Setting * setting_definition, void * setting, const char * value)
 {
     switch(setting_definition->setting_type)
     {
-        case SETTING_STRING: return setStringSettingFromString(setting_definition, setting, value);
+        case SETTING_STRING:
+            return setStringSettingFromString(setting_definition, setting, value);
+        case SETTING_LONG:
+            return setNumericSettingFromString(setting_definition, "%ld", "whole number", setting, value);
+        case SETTING_ULONG:
+            return setNumericSettingFromString(setting_definition, "%lu", "natural number", setting, value);
+        case SETTING_DOUBLE:
+            return setNumericSettingFromString(setting_definition, "%lf", "real number", setting, value);
+        case SETTING_BOOLEAN:
+            return setBooleanSettingFromString(setting_definition, (bool*) setting, value);
     }
 
     snprintf(
