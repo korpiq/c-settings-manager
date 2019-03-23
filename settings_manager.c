@@ -100,7 +100,7 @@ const char * setNumericSettingFromString(const struct Setting * setting_definiti
     snprintf(
         setting_error,
         SETTING_ERROR_LEN,
-        "Value for setting \"%.60s\" is not a valid %s",
+        "Value for setting \"%.60s\" is not a valid %.8s number",
         setting_definition->name,
         type_name
     );
@@ -115,11 +115,11 @@ const char * setSettingFromString(const struct Setting * setting_definition, voi
         case SETTING_STRING:
             return setStringSettingFromString(setting_definition, setting, value);
         case SETTING_LONG:
-            return setNumericSettingFromString(setting_definition, "%ld", "whole number", setting, value);
+            return setNumericSettingFromString(setting_definition, "%ld", "whole", setting, value);
         case SETTING_ULONG:
-            return setNumericSettingFromString(setting_definition, "%lu", "natural number", setting, value);
+            return setNumericSettingFromString(setting_definition, "%lu", "natural", setting, value);
         case SETTING_DOUBLE:
-            return setNumericSettingFromString(setting_definition, "%lf", "real number", setting, value);
+            return setNumericSettingFromString(setting_definition, "%lf", "real", setting, value);
         case SETTING_BOOLEAN:
             return setBooleanSettingFromString(setting_definition, (bool*) setting, value);
     }
