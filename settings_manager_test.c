@@ -1,10 +1,11 @@
 #include <string.h>
 #include "settings_manager.h"
 #include "assert.h"
+#include "stdio.h"
 
 struct settings_test
 {
-    char * string_value;
+    char string_value[6];
     long long_value;
     unsigned long ulong_value;
     double double_value;
@@ -16,36 +17,30 @@ struct Setting settings_test_metadata[] =
     {
         "String value",
         offsetof(struct settings_test, string_value),
-        5,
-        5,
-        SETTING_STRING
+        SETTING_STRING,
+        .string_limits = { 5, NULL }
     },
     {
         "Long value",
         offsetof(struct settings_test, long_value),
-        -2,
-        2,
-        SETTING_ULONG
+        SETTING_ULONG,
+        .long_limits = { -2, 2 }
     },
     {
         "Ulong value",
         offsetof(struct settings_test, ulong_value),
-        0,
-        8,
-        SETTING_ULONG
+        SETTING_ULONG,
+        .ulong_limits = { 0, 8 }
     },
     {
         "Double value",
         offsetof(struct settings_test, double_value),
-        -1,
-        1,
-        SETTING_DOUBLE
+        SETTING_DOUBLE,
+        .double_limits = { -1.0, 1.0 }
     },
     {
         "Boolean value",
         offsetof(struct settings_test, boolean_value),
-        0,
-        1,
         SETTING_BOOLEAN
     },
     {NULL}
@@ -53,7 +48,7 @@ struct Setting settings_test_metadata[] =
 
 struct settings_test test_settings =
 {
-    (char*)NULL,
+    "",
     -3,
     9,
     -1.1,
@@ -67,10 +62,16 @@ void testSettingFromStringByNameFailsOnBadName()
 
 void testSettingFromStringByNameOk()
 {
-    const char * value = "a string";
+    const char * value = "strin";
 
-    assert(0 == settingFromStringByName(settings_test_metadata, &test_settings, "String value", value));
+    const char * result = settingFromStringByName(settings_test_metadata, &test_settings, "String value", value);
 
+    if (result != NULL)
+    {
+        printf("Unexpected error: %s\n", result);
+    }
+
+    assert(result == NULL);
     assert(value != test_settings.string_value);
     assert(!strcmp(value, test_settings.string_value));
 }

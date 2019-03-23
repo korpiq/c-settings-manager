@@ -16,12 +16,14 @@ enum SettingType
 struct Setting
 {
     const char * name;
-    size_t
-        offset;
-    double
-        min,
-        max;
+    size_t offset;
     enum SettingType setting_type;
+    union {
+        struct setting_string_limits { size_t max; const char * (*is_valid)(const char *); } string_limits;
+        struct setting_long_limits { long min, max; } long_limits;
+        struct setting_ulong_limits { unsigned long min, max; } ulong_limits;
+        struct setting_double_limits { double min, max; } double_limits;
+    };
 };
 
 typedef void (*settingConsumerFunction)(const char * name, const char * value);
