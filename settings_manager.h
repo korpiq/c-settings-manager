@@ -29,7 +29,5 @@ struct Setting
 typedef void (*settingConsumerFunction)(const char * name, const char * value);
 
 void serializeSettings(const struct Setting * settings_definition, const void * settings_struct, const settingConsumerFunction * consumer);
-const char * settingFromStringByIndex(const struct Setting * settings_definition, void * settings_struct, size_t index, const char * value);
-const char * settingToStringByIndex(const struct Setting * settings_definition, const void * settings_struct, size_t index, char * value);
 const char * settingFromStringByName(const struct Setting * settings_definition, void * settings_struct, const char * name, const char * value);
 const char * settingToStringByName(const struct Setting * settings_definition, const void * settings_struct, const char * name, char * value);

@@ -24,16 +24,6 @@ const struct Setting * findSettingByName(const struct Setting * settings_definit
     return NULL;
 }
 
-const char * settingFromStringByIndex(const struct Setting * settings_definition, void * settings_struct, size_t index, const char * value)
-{
-    return NULL;
-}
-
-const char * settingToStringByIndex(const struct Setting * settings_definition, const void * settings_struct, size_t index, char * value)
-{
-    return NULL;
-}
-
 const char * setStringSettingFromString(const struct Setting * setting_definition, char * setting, const char * value)
 {
     size_t max_len = setting_definition->string_limits.max;
