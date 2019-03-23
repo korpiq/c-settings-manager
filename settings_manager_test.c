@@ -60,6 +60,11 @@ void testSettingFromStringByNameFailsOnBadName()
     assert(0 != settingFromStringByName(settings_test_metadata, &test_settings, "Bad name", "oops"));
 }
 
+void testSettingFromStringByNameFailsOnTooLongString()
+{
+    assert(0 != settingFromStringByName(settings_test_metadata, &test_settings, "String value", "too long string"));
+}
+
 void testSettingFromStringByNameOk()
 {
     const char * value = "strin";
@@ -79,6 +84,7 @@ void testSettingFromStringByNameOk()
 int main()
 {
     testSettingFromStringByNameFailsOnBadName();
+    testSettingFromStringByNameFailsOnTooLongString();
     testSettingFromStringByNameOk();
     return 0;
 }
