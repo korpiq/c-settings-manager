@@ -13,6 +13,8 @@ enum SettingType
     SETTING_BOOLEAN
 };
 
+#define SETTING_TYPES_COUNT (SETTING_BOOLEAN + 1)
+
 struct Setting
 {
     const char * name;
@@ -26,8 +28,8 @@ struct Setting
     };
 };
 
-typedef void (*settingConsumerFunction)(const char * name, const char * value);
+typedef void (settingConsumerFunction)(const char * name, const char * value);
 
-void serializeSettings(const struct Setting * settings_definition, const void * settings_struct, const settingConsumerFunction * consumer);
+void serializeSettings(const struct Setting * settings_definition, const void * settings_struct, settingConsumerFunction * consumer);
 const char * settingFromStringByName(const struct Setting * settings_definition, void * settings_struct, const char * name, const char * value);
 const char * settingToStringByName(const struct Setting * settings_definition, const void * settings_struct, const char * name, char * value);

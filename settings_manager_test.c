@@ -23,7 +23,7 @@ struct Setting settings_test_metadata[] =
     {
         "Long value",
         offsetof(struct settings_test, long_value),
-        SETTING_ULONG,
+        SETTING_LONG,
         .long_limits = { -2, 2 }
     },
     {
@@ -48,7 +48,7 @@ struct Setting settings_test_metadata[] =
 
 struct settings_test test_settings =
 {
-    "",
+    "str",
     -3,
     9,
     -1.1,
@@ -141,8 +141,39 @@ void testSettingFromStringByNameBooleanOk()
     assert(test_settings.boolean_value == true);
 }
 
+int result_at = 0;
+char result[200];
+
+void serializeToResult(const char * name, const char * value)
+{
+    int len;
+
+    if (result_at > 0)
+    {
+        result[result_at++] = ',';
+    }
+
+    len = strnlen(name, 20);
+    strncpy(result + result_at, name, len);
+    result[result_at += len] = ':';
+    ++result_at;
+
+    len = strnlen(value, 20);
+    strncpy(result + result_at, value, len);
+    result_at += len;
+    result[result_at] = '\0';
+}
+
+void testSerializingOk()
+{
+    const char * expected = "String value:str,Long value:-3,Ulong value:9,Double value:-1.100000,Boolean value:false";
+    serializeSettings(settings_test_metadata, &test_settings, serializeToResult);
+    assert(!strncmp(expected, result, 200));
+}
+
 int main()
 {
+    testSerializingOk();
     testSettingFromStringByNameFailsOnBadName();
     testSettingFromStringByNameFailsOnTooLongString();
     testSettingFromStringByNameStringOk();
