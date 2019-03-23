@@ -1,4 +1,4 @@
-# CFLAGS = -Wall -g
+CFLAGS = -Wall -Werror -pedantic
 INCLUDES = -I .
 
 SRCS = settings_manager.c
